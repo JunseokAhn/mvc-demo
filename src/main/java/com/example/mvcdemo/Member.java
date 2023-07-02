@@ -1,4 +1,4 @@
-package com.example.servletdemo;
+package com.example.mvcdemo;
 
 
 import lombok.AccessLevel;

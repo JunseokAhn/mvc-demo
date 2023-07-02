@@ -1,4 +1,4 @@
-package com.example.servletdemo;
+package com.example.mvcdemo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,10 +6,10 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 
 @ServletComponentScan
 @SpringBootApplication
-public class ServletDemoApplication {
+public class MvcDemoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ServletDemoApplication.class, args);
+		SpringApplication.run(MvcDemoApplication.class, args);
 	}
 
 }

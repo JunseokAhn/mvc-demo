@@ -1,11 +1,9 @@
-package com.example.servletdemo.servlet;
+package com.example.mvcdemo.servlet;
 
-import com.example.servletdemo.Dispatcher;
-import com.example.servletdemo.Member;
-import com.example.servletdemo.MemberRepository;
+import com.example.mvcdemo.Dispatcher;
+import com.example.mvcdemo.MemberRepository;
+import com.example.mvcdemo.Member;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
