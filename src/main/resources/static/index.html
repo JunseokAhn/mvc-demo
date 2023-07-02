@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<a href="/memberForm">멤버 등록</a>
+<input id="memberIdInput">
+<a href="#" onclick="redirectToMemberInfo()">멤버 조회</a>
+<a href="/memberList">멤버 목록</a>
+
+<script>
+    function redirectToMemberInfo() {
+        var memberId = document.getElementById("memberIdInput").value;
+        var redirectUrl = "http://localhost:8080/memberInfo?id=" + memberId;
+        window.location.href = redirectUrl;
+    }
+</script>
+</body>
+</html>
