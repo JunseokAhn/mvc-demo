@@ -3,6 +3,7 @@ package com.example.mvcdemo.servlet;
 import com.example.mvcdemo.Dispatcher;
 import com.example.mvcdemo.Member;
 import com.example.mvcdemo.MemberRepository;
+import com.example.mvcdemo.Model;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,13 +12,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Optional;
 
-@WebServlet(urlPatterns = "/memberInfo")
+@WebServlet(urlPatterns = "/searchMember")
 @RequiredArgsConstructor
-public class MemberInfo extends HttpServlet {
+public class SearchMember extends HttpServlet {
     private final MemberRepository memberRepository;
     private final Dispatcher dispatcher;
+    private final Model model;
     private Member member;
     @Override
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -39,7 +42,12 @@ public class MemberInfo extends HttpServlet {
         if(optionalId.isPresent() && optionalName.isPresent()){
             member = memberRepository.getMember(id);
         }
-        req.setAttribute("member", member);
+        Map<String, String> modelMap = model.getModelMap(member);
+        for (String key : modelMap.keySet()) {
+            req.setAttribute(key, modelMap.get(key));
+            System.out.println(key + ": "+ modelMap.get(key));
+        }
+
         dispatcher.forward("memberInfo", req,res);
     }
 }

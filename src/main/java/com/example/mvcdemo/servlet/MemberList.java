@@ -3,6 +3,7 @@ package com.example.mvcdemo.servlet;
 import com.example.mvcdemo.Dispatcher;
 import com.example.mvcdemo.MemberRepository;
 import com.example.mvcdemo.Member;
+import com.example.mvcdemo.Model;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -19,6 +20,7 @@ public class MemberList extends HttpServlet {
 
     private final MemberRepository memberRepository;
     private final Dispatcher dispatcher;
+    private final Model model;
     @Override
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         try {

@@ -10,9 +10,8 @@
 --%>
 <%
     // name과 age 파라미터 가져오기
-    String name = request.getParameter("name");
-    String age = request.getParameter("age");
-
+    String name = (String) request.getAttribute("name");
+    String age = (String) request.getAttribute("age");
     // name과 age 값을 Optional로 감싸기
     Optional<String> optionalName = Optional.ofNullable(name);
     Optional<String> optionalAge = Optional.ofNullable(age);
@@ -32,6 +31,6 @@
     <% } else { %>
         <% response.sendRedirect("index.html"); %>
     <% } %>
-    <a href="index.html"> 돌아가기 />
+    <a href="index.html"> 돌아가기
 </body>
 </html>
