@@ -1,7 +1,7 @@
 package com.example.mvcdemo;
 
 import com.example.mvcdemo.exception.ControllerNotFoundException;
-import com.example.mvcdemo.servlet.*;
+import com.example.mvcdemo.controller.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;

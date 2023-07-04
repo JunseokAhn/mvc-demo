@@ -1,9 +1,8 @@
-package com.example.mvcdemo.servlet;
+package com.example.mvcdemo.controller;
 
 import com.example.mvcdemo.Member;
 import com.example.mvcdemo.MemberRepository;
 import com.example.mvcdemo.Model;
-import com.example.mvcdemo.exception.MemberNotFoundException;
 
 import java.util.List;
 import java.util.Map;

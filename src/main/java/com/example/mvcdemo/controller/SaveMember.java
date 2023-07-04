@@ -1,4 +1,4 @@
-package com.example.mvcdemo.servlet;
+package com.example.mvcdemo.controller;
 
 import com.example.mvcdemo.MemberRepository;
 import com.example.mvcdemo.Model;
