@@ -1,46 +1,37 @@
 package com.example.mvcdemo.servlet;
 
-import com.example.mvcdemo.Dispatcher;
 import com.example.mvcdemo.MemberRepository;
-import com.example.mvcdemo.Member;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
+import com.example.mvcdemo.Model;
 
-import java.io.IOException;
+import java.util.Map;
 
-@WebServlet(urlPatterns = "/saveMember")
-@RequiredArgsConstructor
-public class SaveMember extends HttpServlet {
+public class SaveMember implements Controller {
 
-    private final MemberRepository memberRepository;
-    private final Dispatcher dispatcher;
+    private MemberRepository memberRepository;
+
+    public SaveMember(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
+
     @Override
-    public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        String name = req.getParameter("name");
-        String ageStr = req.getParameter("age");
+    public String process(Model model, Map<String, String> paramMap) {
+        String name = paramMap.get("name");
+        String strAge = paramMap.get("age");
 
-        if (name == null || ageStr == null) {
-            System.out.println("파라미터 입력 재확인");
-            return;
+        if (name == null || strAge == null) {
+            throw new IllegalArgumentException("잘못된 파라미터 입력입니다.");
         }
 
         int age;
         try {
-            age = Integer.parseInt(ageStr);
+            age = Integer.parseInt(strAge);
         } catch (NumberFormatException e) {
-            System.out.println("나이는 정수로 입력해야 합니다.");
-            return;
+            throw new NumberFormatException("나이는 정수로 입력해야 합니다.");
         }
 
         long id = memberRepository.saveMember(name, age);
 
-//        dispatcher.forward("memberList", req,res);
-        Member member = memberRepository.getMember(id);
-        req.setAttribute("member", member);
-        dispatcher.forward("memberInfo", req,res);
+        return "memberInfo";
     }
 }
+

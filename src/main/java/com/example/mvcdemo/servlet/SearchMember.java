@@ -1,53 +1,48 @@
 package com.example.mvcdemo.servlet;
 
-import com.example.mvcdemo.Dispatcher;
-import com.example.mvcdemo.Member;
-import com.example.mvcdemo.MemberRepository;
-import com.example.mvcdemo.Model;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
+import com.example.mvcdemo.*;
 
-import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@WebServlet(urlPatterns = "/searchMember")
-@RequiredArgsConstructor
-public class SearchMember extends HttpServlet {
-    private final MemberRepository memberRepository;
-    private final Dispatcher dispatcher;
-    private final Model model;
-    private Member member;
+public class SearchMember implements Controller {
+
+    MemberRepository repository;
+
+    public SearchMember(MemberRepository repository) {
+        this.repository = repository;
+    }
+
     @Override
-    public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-//        super.service(req, res);
-        Long id = Long.valueOf(req.getParameter("id"));
-        String name = (String) req.getParameter("name");
-        Optional<Long> optionalId= Optional.ofNullable(id);
-        Optional<String> optionalName= Optional.ofNullable(name);
-        if(optionalId.isEmpty() && optionalName.isEmpty()){
-            System.out.println("파라미터 입력 오류");
-            return;
-        }
-        if(optionalId.isPresent() && optionalName.isEmpty()){
-            member = memberRepository.getMember(id);
-        }
-        if(optionalId.isEmpty() && optionalName.isPresent()){
-            //TODO 구현
-        }
-        if(optionalId.isPresent() && optionalName.isPresent()){
-            member = memberRepository.getMember(id);
-        }
-        Map<String, String> modelMap = model.getModelMap(member);
-        for (String key : modelMap.keySet()) {
-            req.setAttribute(key, modelMap.get(key));
-            System.out.println(key + ": "+ modelMap.get(key));
+    public String process(Model model, Map<String, String> paramMap) throws Exception {
+
+        Optional<Long> optionalId;
+        Optional<String> optionalName;
+        try {
+            optionalId = Optional.ofNullable(Long.valueOf(paramMap.get("id")));
+            optionalName = Optional.ofNullable(paramMap.get("name"));
+
+        } catch (Exception e) {
+            throw new IllegalArgumentException("잘못된 파라미터 입력입니다.");
         }
 
-        dispatcher.forward("memberInfo", req,res);
+        if (optionalId.isEmpty() && optionalName.isEmpty()) {
+            throw new IllegalArgumentException("아이디를 입력해주세요.");
+        }
+        if (optionalId.isPresent() && optionalName.isEmpty()) {
+            Member member= repository.getMember(optionalId.get());
+            model.setValueMap("member", member);
+        }
+        if (optionalId.isEmpty() && optionalName.isPresent()) {
+            List<Member> memberList = repository.getMemberListByName(optionalName.get());
+            model.setValueMap("memberList", memberList);
+        }
+        if (optionalId.isPresent() && optionalName.isPresent()) {
+            Member member= repository.getMember(optionalId.get());
+            model.setValueMap("member", member);
+        }
+
+        return "searchMember";
     }
 }

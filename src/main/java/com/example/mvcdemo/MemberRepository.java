@@ -1,15 +1,16 @@
 package com.example.mvcdemo;
 
-import org.springframework.stereotype.Repository;
+import com.example.mvcdemo.exception.MemberNotFoundException;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-@Repository
 public class MemberRepository {
     private Map<Long, Member> memberRepo = new HashMap<>();
-    private long id=0;
+    private long id = 0;
+
     public long saveMember(String name, int age) {
         Member member = Member.createMember(++id, name, age);
         memberRepo.put(id, member);
@@ -32,7 +33,21 @@ public class MemberRepository {
         return Member.createMember(member.getId(), member.getName(), member.getAge());
     }
 
-    public List<Member> getMemberList(){
-        return memberRepo.values().stream().toList();
+    public List<Member> getMemberList() throws MemberNotFoundException {
+        List<Member> memberList = memberRepo.values().stream().toList();
+        if (memberList == null || memberList.isEmpty()) {
+            throw new MemberNotFoundException("멤버가 없습니다.");
+        }
+        return memberList;
+    }
+
+    public List<Member> getMemberListByName(String name) throws MemberNotFoundException {
+        List<Member> memberList= memberRepo.values().stream().filter(member ->
+                member.getName().equals(name)
+        ).collect(Collectors.toList());
+        if (memberList == null || memberList.isEmpty()) {
+            throw new MemberNotFoundException("멤버가 없습니다.");
+        }
+        return memberList;
     }
 }
