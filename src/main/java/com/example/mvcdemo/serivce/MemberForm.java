@@ -1,6 +1,7 @@
-package com.example.mvcdemo.controller;
+package com.example.mvcdemo.serivce;
 
-import com.example.mvcdemo.Model;
+import com.example.mvcdemo.controller.Controller;
+import com.example.mvcdemo.ui.Model;
 
 import java.util.Map;
 

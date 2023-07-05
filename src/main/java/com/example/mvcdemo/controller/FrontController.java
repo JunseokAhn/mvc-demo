@@ -1,7 +1,13 @@
-package com.example.mvcdemo;
+package com.example.mvcdemo.controller;
 
+import com.example.mvcdemo.repository.MemberRepository;
 import com.example.mvcdemo.exception.ControllerNotFoundException;
-import com.example.mvcdemo.controller.*;
+import com.example.mvcdemo.serivce.MemberForm;
+import com.example.mvcdemo.serivce.MemberList;
+import com.example.mvcdemo.serivce.SaveMember;
+import com.example.mvcdemo.serivce.SearchMember;
+import com.example.mvcdemo.ui.Model;
+import com.example.mvcdemo.ui.View;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;

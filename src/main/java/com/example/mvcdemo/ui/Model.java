@@ -1,4 +1,4 @@
-package com.example.mvcdemo;
+package com.example.mvcdemo.ui;
 
 import lombok.*;
 

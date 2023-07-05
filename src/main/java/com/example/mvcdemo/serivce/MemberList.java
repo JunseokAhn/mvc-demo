@@ -1,8 +1,9 @@
-package com.example.mvcdemo.controller;
+package com.example.mvcdemo.serivce;
 
-import com.example.mvcdemo.Member;
-import com.example.mvcdemo.MemberRepository;
-import com.example.mvcdemo.Model;
+import com.example.mvcdemo.entity.Member;
+import com.example.mvcdemo.repository.MemberRepository;
+import com.example.mvcdemo.controller.Controller;
+import com.example.mvcdemo.ui.Model;
 
 import java.util.List;
 import java.util.Map;

@@ -1,5 +1,6 @@
-package com.example.mvcdemo;
+package com.example.mvcdemo.ui;
 
+import com.example.mvcdemo.ui.Model;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

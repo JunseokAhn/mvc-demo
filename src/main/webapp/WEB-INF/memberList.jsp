@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.example.mvcdemo.Member" %>
+<%@ page import="com.example.mvcdemo.entity.Member" %>
 <!DOCTYPE html>
 <html>
 <head>

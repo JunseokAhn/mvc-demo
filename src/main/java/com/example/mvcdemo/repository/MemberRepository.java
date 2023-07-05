@@ -1,5 +1,6 @@
-package com.example.mvcdemo;
+package com.example.mvcdemo.repository;
 
+import com.example.mvcdemo.entity.Member;
 import com.example.mvcdemo.exception.MemberNotFoundException;
 
 import java.util.HashMap;

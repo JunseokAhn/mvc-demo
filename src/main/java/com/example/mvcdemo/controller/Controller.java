@@ -1,6 +1,6 @@
 package com.example.mvcdemo.controller;
 
-import com.example.mvcdemo.Model;
+import com.example.mvcdemo.ui.Model;
 
 import java.util.Map;
 

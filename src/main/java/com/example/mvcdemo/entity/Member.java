@@ -1,4 +1,4 @@
-package com.example.mvcdemo;
+package com.example.mvcdemo.entity;
 
 
 import lombok.AccessLevel;
