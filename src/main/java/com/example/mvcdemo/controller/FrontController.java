@@ -19,8 +19,8 @@ import java.util.Map;
 
 @WebServlet(urlPatterns = "/member/*")
 public class FrontController extends HttpServlet {
-    private Map<String, Controller> controllerRepo = new HashMap<>();
-    private MemberRepository memberRepo = new MemberRepository();
+    private final Map<String, Controller> controllerRepo = new HashMap<>();
+    private final MemberRepository memberRepo = new MemberRepository();
 
     public FrontController() {
         controllerRepo.put("memberForm", new MemberForm());
