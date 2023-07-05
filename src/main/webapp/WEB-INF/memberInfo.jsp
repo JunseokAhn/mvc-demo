@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.Optional" %>
+<%@ page import="com.example.mvcdemo.entity.Member" %>
 <%--
   Created by IntelliJ IDEA.
   User: guru
@@ -9,12 +10,11 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%
-    // name과 age 파라미터 가져오기
-    String name = (String) request.getAttribute("name");
-    String age = (String) request.getAttribute("age");
+    // member 가져오기
+    Member member= (Member) request.getAttribute("member");
     // name과 age 값을 Optional로 감싸기
-    Optional<String> optionalName = Optional.ofNullable(name);
-    Optional<String> optionalAge = Optional.ofNullable(age);
+    Optional<String> optionalName = Optional.ofNullable(member.getName());
+    Optional<Integer> optionalAge = Optional.ofNullable(member.getAge());
 %>
 
 <!DOCTYPE html>
@@ -29,8 +29,8 @@
         <p>Name: <%= optionalName.get() %></p>
         <p>Age: <%= optionalAge.get() %></p>
     <% } else { %>
-        <% response.sendRedirect("index.html"); %>
+        <% response.sendRedirect("/index.html"); %>
     <% } %>
-    <a href="index.html"> 돌아가기
+    <a href="/index.html"> 돌아가기
 </body>
 </html>

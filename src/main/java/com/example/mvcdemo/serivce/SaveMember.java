@@ -1,5 +1,6 @@
 package com.example.mvcdemo.serivce;
 
+import com.example.mvcdemo.exception.MemberNotFoundException;
 import com.example.mvcdemo.repository.MemberRepository;
 import com.example.mvcdemo.controller.Controller;
 import com.example.mvcdemo.ui.Model;
@@ -15,7 +16,7 @@ public class SaveMember implements Controller {
     }
 
     @Override
-    public String process(Model model, Map<String, String> paramMap) {
+    public String process(Model model, Map<String, String> paramMap) throws MemberNotFoundException {
         String name = paramMap.get("name");
         String strAge = paramMap.get("age");
 
@@ -31,7 +32,7 @@ public class SaveMember implements Controller {
         }
 
         long id = memberRepository.saveMember(name, age);
-
+        model.setValueMap("member", memberRepository.getMember(id));
         return "memberInfo";
     }
 }

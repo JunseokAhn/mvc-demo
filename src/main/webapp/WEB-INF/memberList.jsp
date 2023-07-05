@@ -34,6 +34,7 @@
     <% } catch (Exception e) { %>
     <tr>
         <td colspan="3">오류 발생</td>
+    <% System.out.println(e); %>
     </tr>
     <% } %>
 </table>

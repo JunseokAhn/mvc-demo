@@ -46,6 +46,6 @@ public class SearchMember implements Controller {
             model.setValueMap("member", member);
         }
 
-        return "searchMember";
+        return "memberInfo";
     }
 }

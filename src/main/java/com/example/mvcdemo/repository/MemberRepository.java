@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class MemberRepository {
-    private Map<Long, Member> memberRepo = new HashMap<>();
+    private final Map<Long, Member> memberRepo = new HashMap<>();
     private long id = 0;
 
     public long saveMember(String name, int age) {
@@ -18,14 +18,14 @@ public class MemberRepository {
         return id;
     }
 
-    public Member getMember(long id) {
+    public Member getMember(long id) throws MemberNotFoundException {
         if (id <= 0) {
             throw new IllegalArgumentException("ID는 1 이상이어야 합니다.");
         }
 
         Member member = memberRepo.get(id);
         if (member == null) {
-            throw new NullPointerException("Member를 찾을 수 없습니다.");
+            throw new MemberNotFoundException("Member를 찾을 수 없습니다.");
         }
 
         if (member.getName() == null || member.getName().isEmpty()) {
@@ -35,20 +35,20 @@ public class MemberRepository {
     }
 
     public List<Member> getMemberList() throws MemberNotFoundException {
-        List<Member> memberList = memberRepo.values().stream().toList();
-        if (memberList == null || memberList.isEmpty()) {
+        if(memberRepo.isEmpty()){
             throw new MemberNotFoundException("멤버가 없습니다.");
         }
+        List<Member> memberList = memberRepo.values().stream().toList();
         return memberList;
     }
 
     public List<Member> getMemberListByName(String name) throws MemberNotFoundException {
+        if(memberRepo.isEmpty()){
+            throw new MemberNotFoundException("멤버가 없습니다.");
+        }
         List<Member> memberList= memberRepo.values().stream().filter(member ->
                 member.getName().equals(name)
         ).collect(Collectors.toList());
-        if (memberList == null || memberList.isEmpty()) {
-            throw new MemberNotFoundException("멤버가 없습니다.");
-        }
         return memberList;
     }
 }

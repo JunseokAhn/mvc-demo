@@ -17,7 +17,7 @@ import lombok.SneakyThrows;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(urlPatterns = "/*")
+@WebServlet(urlPatterns = "/member/*")
 public class FrontController extends HttpServlet {
     private Map<String, Controller> controllerRepo = new HashMap<>();
     private MemberRepository memberRepo = new MemberRepository();
@@ -33,16 +33,13 @@ public class FrontController extends HttpServlet {
     @SneakyThrows
     public void service(HttpServletRequest req, HttpServletResponse res) {
 
-        /*Todo urlPatterns "/*"로 인해 재귀현상 발생.
-            /static/index.html
-            /favicon.ico
-            /error
-        */
-        String requestURI = req.getRequestURI();
-        if(requestURI.equals("/")){
-            req.getRequestDispatcher("/static/index.html").forward(req,res);
-            return;
-        }
+        String requestURI = req.getRequestURI().replaceFirst("/member/", "");
+
+//        if(requestURI.equals("/")){
+//            req.getRequestDispatcher("/static/index.html").forward(req,res);
+//            return;
+//        }
+
         Controller controller = controllerRepo.get(requestURI);
         if (controller == null) {
             throw new ControllerNotFoundException("화면을 찾을 수 없습니다.  requestURI : " + requestURI );

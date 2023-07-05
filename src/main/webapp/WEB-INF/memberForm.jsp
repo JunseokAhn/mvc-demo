@@ -13,7 +13,7 @@
 </head>
 <body>
 <h1>Member Form</h1>
-<form action="saveMember" method="get">
+<form action="/member/saveMember" method="get">
   <label for="name">Name:</label>
   <input type="text" id="name" name="name" required>
   <br>
