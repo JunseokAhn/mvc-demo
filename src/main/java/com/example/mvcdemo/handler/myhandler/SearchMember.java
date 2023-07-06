@@ -1,7 +1,6 @@
-package com.example.mvcdemo.serivce;
+package com.example.mvcdemo.handler.myhandler;
 
 import com.example.mvcdemo.entity.Member;
-import com.example.mvcdemo.controller.Controller;
 import com.example.mvcdemo.repository.MemberRepository;
 import com.example.mvcdemo.ui.Model;
 
@@ -9,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class SearchMember implements Controller {
+public class SearchMember implements MyHandler {
 
     MemberRepository repository;
 

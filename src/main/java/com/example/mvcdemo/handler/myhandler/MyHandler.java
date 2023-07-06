@@ -1,9 +1,9 @@
-package com.example.mvcdemo.controller;
+package com.example.mvcdemo.handler.myhandler;
 
 import com.example.mvcdemo.ui.Model;
 
 import java.util.Map;
 
-public interface Controller {
+public interface MyHandler {
     String process(Model model, Map<String, String> paramMap) throws Exception;
 }

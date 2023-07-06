@@ -1,13 +1,12 @@
-package com.example.mvcdemo.serivce;
+package com.example.mvcdemo.handler.myhandler;
 
 import com.example.mvcdemo.exception.MemberNotFoundException;
 import com.example.mvcdemo.repository.MemberRepository;
-import com.example.mvcdemo.controller.Controller;
 import com.example.mvcdemo.ui.Model;
 
 import java.util.Map;
 
-public class SaveMember implements Controller {
+public class SaveMember implements MyHandler {
 
     private MemberRepository memberRepository;
 

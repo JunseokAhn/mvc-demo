@@ -1,14 +1,13 @@
-package com.example.mvcdemo.serivce;
+package com.example.mvcdemo.handler.myhandler;
 
 import com.example.mvcdemo.entity.Member;
 import com.example.mvcdemo.repository.MemberRepository;
-import com.example.mvcdemo.controller.Controller;
 import com.example.mvcdemo.ui.Model;
 
 import java.util.List;
 import java.util.Map;
 
-public class MemberList implements Controller {
+public class MemberList implements MyHandler {
 
     private MemberRepository repository;
 

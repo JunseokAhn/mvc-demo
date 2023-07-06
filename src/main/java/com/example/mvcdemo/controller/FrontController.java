@@ -1,32 +1,36 @@
 package com.example.mvcdemo.controller;
 
+import com.example.mvcdemo.exception.HandlerNotFoundException;
+import com.example.mvcdemo.handler.*;
+import com.example.mvcdemo.handler.myhandler.*;
+import com.example.mvcdemo.handler.yourhandler.YourHandlerAdapter;
 import com.example.mvcdemo.repository.MemberRepository;
 import com.example.mvcdemo.exception.ControllerNotFoundException;
-import com.example.mvcdemo.serivce.MemberForm;
-import com.example.mvcdemo.serivce.MemberList;
-import com.example.mvcdemo.serivce.SaveMember;
-import com.example.mvcdemo.serivce.SearchMember;
-import com.example.mvcdemo.ui.Model;
-import com.example.mvcdemo.ui.View;
+import com.example.mvcdemo.ui.ModelAndView;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @WebServlet(urlPatterns = "/member/*")
 public class FrontController extends HttpServlet {
-    private final Map<String, Controller> controllerRepo = new HashMap<>();
+    private final Map<String, MyHandler> handlerMap = new HashMap<>();
+    private final List<HandlerAdapter> handlerAdapterList = new ArrayList<>();
     private final MemberRepository memberRepo = new MemberRepository();
 
     public FrontController() {
-        controllerRepo.put("memberForm", new MemberForm());
-        controllerRepo.put("memberList", new MemberList(memberRepo));
-        controllerRepo.put("saveMember", new SaveMember(memberRepo));
-        controllerRepo.put("searchMember", new SearchMember(memberRepo));
+        handlerAdapterList.add(new MyHandlerAdapter());
+        handlerAdapterList.add(new YourHandlerAdapter());
+        handlerMap.put("memberForm", new MemberForm());
+        handlerMap.put("memberList", new MemberList(memberRepo));
+        handlerMap.put("saveMember", new SaveMember(memberRepo));
+        handlerMap.put("searchMember", new SearchMember(memberRepo));
     }
 
     @Override
@@ -35,22 +39,22 @@ public class FrontController extends HttpServlet {
 
         String requestURI = req.getRequestURI().replaceFirst("/member/", "");
 
-//        if(requestURI.equals("/")){
-//            req.getRequestDispatcher("/static/index.html").forward(req,res);
-//            return;
-//        }
-
-        Controller controller = controllerRepo.get(requestURI);
-        if (controller == null) {
+        MyHandler handler = handlerMap.get(requestURI);
+        if (handler == null) {
             throw new ControllerNotFoundException("화면을 찾을 수 없습니다.  requestURI : " + requestURI );
         }
-        Map<String, String> paramMap = new HashMap<>();
-        req.getParameterNames().asIterator().forEachRemaining(paramName -> {
-            paramMap.put(paramName, req.getParameter(paramName));
-        });
-        Model model = new Model();
-        String viewName = controller.process(model, paramMap);
-        View view = new View(viewName, model);
-        view.render(req, res);
+
+        HandlerAdapter handlerAdapter = null;
+        for (HandlerAdapter element : handlerAdapterList) {
+            boolean supports = element.supports(handler);
+            if(supports)
+                handlerAdapter = element;
+        }
+        if(handlerAdapter == null){
+            throw new HandlerNotFoundException("핸들러를 찾을 수 없습니다." + requestURI);
+        };
+
+        ModelAndView modelAndView = handlerAdapter.handle(req, res, handler);
+        modelAndView.render(req, res);
     }
 }
