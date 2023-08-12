@@ -1,11 +1,12 @@
 package com.example.mvcdemo.controller;
 
+import com.example.mvcdemo.exception.ControllerNotFoundException;
 import com.example.mvcdemo.exception.HandlerNotFoundException;
-import com.example.mvcdemo.handler.*;
+import com.example.mvcdemo.handler.HandlerAdapter;
 import com.example.mvcdemo.handler.myhandler.*;
 import com.example.mvcdemo.handler.yourhandler.YourHandlerAdapter;
 import com.example.mvcdemo.repository.MemberRepository;
-import com.example.mvcdemo.exception.ControllerNotFoundException;
+import com.example.mvcdemo.ui.View;
 import com.example.mvcdemo.ui.ModelAndView;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -55,6 +56,11 @@ public class FrontController extends HttpServlet {
         };
 
         ModelAndView modelAndView = handlerAdapter.handle(req, res, handler);
-        modelAndView.render(req, res);
+        View view= jspViewResolver(modelAndView);
+        view.render(modelAndView.getModel(), req, res);
+    }
+
+    private View jspViewResolver(ModelAndView modelAndView) {
+        return new View("/WEB-INF/" + modelAndView.getName() + ".jsp");
     }
 }
