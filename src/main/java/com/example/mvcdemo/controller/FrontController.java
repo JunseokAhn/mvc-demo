@@ -6,8 +6,8 @@ import com.example.mvcdemo.handler.HandlerAdapter;
 import com.example.mvcdemo.handler.myhandler.*;
 import com.example.mvcdemo.handler.yourhandler.YourHandlerAdapter;
 import com.example.mvcdemo.repository.MemberRepository;
-import com.example.mvcdemo.ui.View;
 import com.example.mvcdemo.ui.ModelAndView;
+import com.example.mvcdemo.ui.View;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,25 +26,32 @@ public class FrontController extends HttpServlet {
     private final MemberRepository memberRepo = new MemberRepository();
 
     public FrontController() {
-        handlerAdapterList.add(new MyHandlerAdapter());
-        handlerAdapterList.add(new YourHandlerAdapter());
+        // initHandlerMappings() -> (HandlerMapping) RequestMappingHandlerMapping...
+        // RequestMappingHandlerMapping에 의해 HandlerMethod를 저장
         handlerMap.put("memberForm", new MemberForm());
         handlerMap.put("memberList", new MemberList(memberRepo));
         handlerMap.put("saveMember", new SaveMember(memberRepo));
         handlerMap.put("searchMember", new SearchMember(memberRepo));
+        // initHandlerAdapters() -> (HandlerAdapter) RequestMappingHandlerAdapter...
+        handlerAdapterList.add(new MyHandlerAdapter());
+        handlerAdapterList.add(new YourHandlerAdapter());
     }
 
     @Override
     @SneakyThrows
     public void service(HttpServletRequest req, HttpServletResponse res) {
 
+        //모든 호출이 프론트컨트롤러(디스패쳐 서블릿)로 들어옴
         String requestURI = req.getRequestURI().replaceFirst("/member/", "");
 
+        //해당 리소스를 관리하는 핸들러가 있는지 체크
         MyHandler handler = handlerMap.get(requestURI);
         if (handler == null) {
             throw new ControllerNotFoundException("화면을 찾을 수 없습니다.  requestURI : " + requestURI );
         }
-
+        //해당 핸들러를 관리하는 어댑터가 있는지 체크
+        // -> RequestMappingHandlerAdapter.supports()에서는 HandlerMethod타입을 체크
+        // -> RequestMappingHandlerMapping과 연동
         HandlerAdapter handlerAdapter = null;
         for (HandlerAdapter element : handlerAdapterList) {
             boolean supports = element.supports(handler);
@@ -54,9 +61,13 @@ public class FrontController extends HttpServlet {
         if(handlerAdapter == null){
             throw new HandlerNotFoundException("핸들러를 찾을 수 없습니다." + requestURI);
         };
-
+        //핸들러 프로세스(비즈니스로직) 실행 후 모델과 뷰패스를 갖고있는 모델앤뷰 반환
         ModelAndView modelAndView = handlerAdapter.handle(req, res, handler);
+
+        //뷰 리졸버에서 물리적경로를 설정
         View view= jspViewResolver(modelAndView);
+
+        //화면 이동
         view.render(modelAndView.getModel(), req, res);
     }
 

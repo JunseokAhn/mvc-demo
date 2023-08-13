@@ -23,8 +23,13 @@ public class MyHandlerAdapter implements HandlerAdapter {
             paramMap.put(paramName, req.getParameter(paramName));
         });
         Model model = new Model();
+        //supports에 의해 핸들러 타입이 특정되었으므로 형변환 가능
         MyHandler handler = (MyHandler) objHandler;
+
+        //핸들러의 비즈니스로직을 실행하고, 결과물을 model에 담음
         String viewName = handler.process(model, paramMap);
+        
+        //뷰와 모델을 담은 객체 생성해서 반환
         ModelAndView modelAndView = new ModelAndView(viewName, model);
         return modelAndView;
     }
