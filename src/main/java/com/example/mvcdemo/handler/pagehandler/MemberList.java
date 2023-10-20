@@ -1,4 +1,4 @@
-package com.example.mvcdemo.handler.myhandler;
+package com.example.mvcdemo.handler.pagehandler;
 
 import com.example.mvcdemo.entity.Member;
 import com.example.mvcdemo.repository.MemberRepository;
@@ -7,7 +7,7 @@ import com.example.mvcdemo.ui.Model;
 import java.util.List;
 import java.util.Map;
 
-public class MemberList implements MyHandler {
+public class MemberList implements PageHandler {
 
     private MemberRepository repository;
 

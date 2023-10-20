@@ -1,4 +1,4 @@
-package com.example.mvcdemo.handler.myhandler;
+package com.example.mvcdemo.handler.pagehandler;
 
 import com.example.mvcdemo.exception.MemberNotFoundException;
 import com.example.mvcdemo.repository.MemberRepository;
@@ -6,7 +6,7 @@ import com.example.mvcdemo.ui.Model;
 
 import java.util.Map;
 
-public class SaveMember implements MyHandler {
+public class SaveMember implements PageHandler {
 
     private MemberRepository memberRepository;
 

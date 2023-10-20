@@ -1,14 +1,11 @@
-package com.example.mvcdemo.handler.myhandler;
+package com.example.mvcdemo.handler.apihandler;
 
-import com.example.mvcdemo.entity.Member;
 import com.example.mvcdemo.repository.MemberRepository;
-import com.example.mvcdemo.ui.Model;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class SearchMember implements MyHandler {
+public class SearchMember implements ApiHandler {
 
     MemberRepository repository;
 
@@ -17,7 +14,7 @@ public class SearchMember implements MyHandler {
     }
 
     @Override
-    public String process(Model model, Map<String, String> paramMap) throws Exception {
+    public Object process(Map<String, String> paramMap) throws Exception {
 
         Optional<Long> optionalId;
         Optional<String> optionalName;
@@ -33,18 +30,15 @@ public class SearchMember implements MyHandler {
             throw new IllegalArgumentException("아이디를 입력해주세요.");
         }
         if (optionalId.isPresent() && optionalName.isEmpty()) {
-            Member member= repository.getMember(optionalId.get());
-            model.setValueMap("member", member);
+            return repository.getMember(optionalId.get());
         }
         if (optionalId.isEmpty() && optionalName.isPresent()) {
-            List<Member> memberList = repository.getMemberListByName(optionalName.get());
-            model.setValueMap("memberList", memberList);
+            return repository.getMemberListByName(optionalName.get());
         }
         if (optionalId.isPresent() && optionalName.isPresent()) {
-            Member member= repository.getMember(optionalId.get());
-            model.setValueMap("member", member);
+            return repository.getMember(optionalId.get());
         }
 
-        return "memberInfo";
+        return null;
     }
 }
